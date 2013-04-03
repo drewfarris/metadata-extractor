@@ -3,3 +3,9 @@
 /Output
 /out
 /TestReports
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
