@@ -1,17 +1,23 @@
 package com.drew.imaging.png;
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
+
+import org.junit.Test;
+
 import com.drew.lang.KeyValuePair;
 import com.drew.lang.annotations.NotNull;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.png.PngDirectory;
-import org.junit.Test;
-
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * @author Drew Noakes http://drewnoakes.com
@@ -55,7 +61,9 @@ public class PngMetadataReaderTest
         assertEquals(0.45455, directory.getDouble(PngDirectory.TAG_GAMMA), 0.00001);
         assertArrayEquals(new byte[]{0, 52}, directory.getByteArray(PngDirectory.TAG_BACKGROUND_COLOR));
         //noinspection ConstantConditions
-        assertEquals("Tue Jan 01 04:08:30 GMT 2013", directory.getDate(PngDirectory.TAG_LAST_MODIFICATION_TIME).toString());
+        DateFormat fmt = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, Locale.US);
+        fmt.setTimeZone(TimeZone.getTimeZone("GMT"));
+        assertEquals("Jan 1, 2013 4:08:30 AM", fmt.format(directory.getDate(PngDirectory.TAG_LAST_MODIFICATION_TIME)));
         @SuppressWarnings("unchecked")
         List<KeyValuePair> pairs = (List<KeyValuePair>)directory.getObject(PngDirectory.TAG_TEXTUAL_DATA);
         assertNotNull(pairs);
