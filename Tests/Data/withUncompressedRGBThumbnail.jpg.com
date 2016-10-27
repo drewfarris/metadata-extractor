@@ -1,1 +1,0 @@
-Lovely smoke effect here, of which I'm secretly very proud.
